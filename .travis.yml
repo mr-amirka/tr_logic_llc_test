@@ -10,6 +10,11 @@ matrix:
   allow_failures:
     - rust: nightly
 
+addons:
+  apt:
+    packages:
+      - libssl-dev
+
 env:
   global:
     - PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
@@ -19,12 +24,10 @@ before_install:
   - sudo bash ./fast-install.sh
 
 before_cache:
-  - cargo install cargo-tarpaulin -f
+  - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
 
 script:
   - cd ./app
-  - cargo clean
-  - cargo build
   - cargo test
 
 after_success: |
