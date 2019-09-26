@@ -29,8 +29,7 @@ script:
 
 after_success: |
   cargo tarpaulin --out Xml
-  bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-
+  sudo bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 
 notifications:
   email:
