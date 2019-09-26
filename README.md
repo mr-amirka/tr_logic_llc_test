@@ -1,7 +1,5 @@
-[![Build Status](https://travis-ci.org/mr-amirka/tr_logic_llc_test.svg?branch=master)](https://travis-ci.org/mr-amirka/tr_logic_llc_test)
+# TR LOGIC LLC Test [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mr-amirka/tr_logic_llc_test/blob/master/LICENSE) [![Build Status](https://travis-ci.org/mr-amirka/tr_logic_llc_test.svg?branch=master)](https://travis-ci.org/mr-amirka/tr_logic_llc_test) [![codecov](https://codecov.io/gh/mr-amirka/tr_logic_llc_test/branch/master/graph/badge.svg)](https://codecov.io/gh/mr-amirka/tr_logic_llc_test)
 
-
-# tr_logic_llc_test
 
 Задание:
 -------

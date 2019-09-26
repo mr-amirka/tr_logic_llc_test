@@ -4,9 +4,11 @@ rust:
 os: linux
 dist: xenial
 
-cache: cargo
-
 sudo: required
+
+matrix:
+  allow_failures:
+    - rust: nightly
 
 env:
   global:
@@ -15,13 +17,20 @@ env:
 
 before_install:
   - sudo bash ./fast-install.sh
-  - sudo bash ./kcov-install.sh
+
+before_cache:
+  - cargo install cargo-tarpaulin -f
 
 script:
-  # Запуск тестов
-  - cd ./app && cargo test
-  - cd ..
-  - sudo kcov --exclude-pattern=/.cargo,/usr/lib --verify ./app/target/cov ./app/target/debug/tr_logic_llc-*
+  - cd ./app
+  - cargo clean
+  - cargo build
+  - cargo test
+
+after_success: |
+  cargo tarpaulin --out Xml
+  bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+
 
 notifications:
   email:
