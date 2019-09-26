@@ -19,7 +19,6 @@ extern crate crypto;
 extern crate serde_derive;
 extern crate serde_json;
 extern crate base64;
-
 extern crate actix_multipart;
 extern crate mime;
 extern crate futures_cpupool;
