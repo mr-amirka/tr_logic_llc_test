@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/mr-amirka/tr_logic_llc_test.svg?branch=master)](https://travis-ci.org/mr-amirka/tr_logic_llc_test)
+
+
 # tr_logic_llc_test
 
 Задание:
@@ -198,7 +201,7 @@ GET http://0.0.0.0:8000/thumbnails/I/Z/-/BjhYHGCebfhPoBGSEy6STwxPeH1XxmomLJ38-V0
 
 #### 4. Front-end приложения
 
-Front-end приложение для тестирования серверной части доступно по адресу [/](http://0.0.0.0:8000/)  
+Front-end приложение для тестирования серверной части доступно по адресу: [/](http://0.0.0.0:8000/)  
 К Front-end приложению относятся также ресурсы:
 - [/assets/app.css](http://0.0.0.0:8000/assets/app.css);
 - [/assets/app.js](http://0.0.0.0:8000/assets/app.js);
