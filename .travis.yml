@@ -6,14 +6,20 @@ dist: xenial
 
 sudo: required
 
-matrix:
-  allow_failures:
-    - rust: nightly
-
 addons:
   apt:
     packages:
-      - libssl-dev
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - cmake
+      - gcc
+      - binutils-dev
+      - libiberty-dev
+
+matrix:
+  allow_failures:
+    - rust: nightly
 
 env:
   global:
@@ -23,16 +29,24 @@ env:
 before_install:
   - sudo bash ./fast-install.sh
 
-before_cache:
-  - RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin -f
-
 script:
-  - cd ./app
-  - cargo test
+  # Запуск тестов
+  - cd ./app && cargo test
+  - cd ..
 
 after_success: |
-  cargo tarpaulin --out Xml
-  sudo bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+  sudo wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+  sudo tar xzf master.tar.gz &&
+  cd kcov-master &&
+  sudo mkdir build &&
+  cd build &&
+  sudo cmake .. &&
+  sudo make &&
+  sudo make install DESTDIR=../../kcov-build &&
+  cd ../.. &&
+  sudo rm -rf kcov-master &&
+  for file in ./app/target/debug/tr_logic_llc-*; do [ -x "${file}" ] || continue; sudo mkdir -p "./app/target/cov/$(basename $file)"; sudo kcov --exclude-pattern=/.cargo,/usr/lib --verify "./app/target/cov/$(basename $file)" "$file"; done && sudo bash <(curl -s https://codecov.io/bash)  -t $CODECOV_TOKEN
+
 
 notifications:
   email:
