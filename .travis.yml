@@ -40,13 +40,14 @@ after_success: |
   cd kcov-master &&
   sudo mkdir build &&
   cd build &&
-  sudo cmake .. &&
+  sudo cmake -DCMAKE_BUILD_TYPE=Release .. &&
   sudo make &&
+  sudo make install
   sudo make install DESTDIR=../../kcov-build &&
   cd ../.. &&
   sudo rm -rf kcov-master &&
   cd ./app  &&
-  for file in ./target/debug/tr_logic_llc-*; do [ -x "${file}" ] || continue; sudo mkdir -p "./target/cov/$(basename $file)"; kcov --exclude-pattern=/.cargo,/usr/lib --verify "./target/cov/$(basename $file)" "$file"; done && sudo bash <(curl -s https://codecov.io/bash)  -t $CODECOV_TOKEN
+  for file in ./target/debug/tr_logic_llc-*; do [ -x "${file}" ] || continue; sudo mkdir -p "./target/cov/$(basename $file)"; sudo kcov --exclude-pattern=/.cargo,/usr/lib --verify "./target/cov/$(basename $file)" "$file"; done && sudo bash <(curl -s https://codecov.io/bash)  -t $CODECOV_TOKEN
 
 
 notifications:
