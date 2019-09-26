@@ -1,0 +1,40 @@
+language: rust
+rust:
+  - nightly
+os: linux
+dist: xenial
+
+cache: cargo
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+sudo: required
+
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=3.1
+    - PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
+    - LD_LIBRARY_PATH=/usr/local/lib/
+
+before_install:
+  - sudo bash ./fast-install.sh
+  - sudo bash ./kcov-install.sh
+
+script:
+  # Запуск тестов
+  - cd ./app && cargo test
+  - cd ..
+  - sudo kcov --exclude-pattern=/.cargo,/usr/lib --verify ./app/target/cov ./app/target/debug/tr_logic_llc-*
+  # Сборка docker образа
+  - sudo docker build -f ./Dockerfile-base -t tr_logic_llc/base .
+  - sudo docker build -f ./Dockerfile -t tr_logic_llc/app .
+
+notifications:
+  email:
+    - mr.amirka@ya.ru
+  slack:
+    on_success: always
+    on_failure: always

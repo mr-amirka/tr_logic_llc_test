@@ -1,0 +1,32 @@
+[package]
+name = "tr_logic_llc"
+version = "0.1.0"
+authors = ["Amir Absolutely <mr.amirka@ya.ru>"]
+
+[dependencies]
+libc = "0.2"
+actix = "*"
+actix-rt = "*"
+actix-multipart = "*"
+actix-web = { version = "1.0.0", features = ["ssl"] }
+num_cpus = "*"
+serde_derive = "*"
+serde_json = "*"
+lazy_static = "*"
+chrono = "*"
+tokio = "*"
+env_logger = "*"
+actix-files = "*"
+openssl = "*"
+serde = "*"
+futures = "*"
+futures-cpupool = "*"
+mime = "*"
+regex = "*"
+bytes = "*"
+rust-crypto = "*"
+base64 = "*"
+graceful = "*"
+config = "*"
+async_fs = { git = "https://github.com/mr-amirka/async_fs" }
+opencv = { git = "https://github.com/mr-amirka/opencv-rust", default-features = false, features = ["opencv-41"] }
