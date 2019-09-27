@@ -32,7 +32,9 @@ before_install:
 
 script:
   # Запуск тестов
-  - cd ./app && cargo test
+  - cd ./app
+  - cargo build
+  - cargo test
   - cd ..
 
 after_success: |
