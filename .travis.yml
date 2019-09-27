@@ -33,6 +33,7 @@ before_cache:
   - cargo install cargo-tarpaulin -f
 
 script:
+  - cd ./app
   - cargo test
 
 after_success: |
