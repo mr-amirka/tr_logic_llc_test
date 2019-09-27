@@ -55,3 +55,4 @@ mv ./opencv-build/lib/* /usr/local/lib/
 mkdir /usr/local/lib/pkgconfig
 mv -f ./opencv-build/unix-install/opencv4.pc /usr/local/lib/pkgconfig/
 rm -rf ./opencv-build
+ldconfig

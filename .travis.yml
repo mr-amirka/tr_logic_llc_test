@@ -35,6 +35,7 @@ script:
   - cd ..
 
 after_success: |
+  ls -a $ LD_LIBRARY_PATH
   sudo wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
   sudo tar xzf master.tar.gz &&
   cd kcov-master &&
