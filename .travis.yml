@@ -25,21 +25,32 @@ env:
   global:
     - PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/
     - LD_LIBRARY_PATH=/usr/local/lib/
+    - RUSTFLAGS="-C link-dead-code"
+    - CARGO_MAKE_RUN_CODECOV="true"
+    - RUST_BACKTRACE=1
 
 before_install:
   - sudo bash ./fast-install.sh
 
-before_cache:
-  - cargo install cargo-tarpaulin -f
-
 script:
-  - cd ./app
-  - cargo test
+  # Запуск тестов
+  - cd ./app && cargo test
+  - cd ..
 
 after_success: |
-  cargo tarpaulin --out Xml
-  bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
-
+  sudo wget https://github.com/SimonKagstrom/kcov/archive/master.tar.gz &&
+  sudo tar xzf master.tar.gz &&
+  cd kcov-master &&
+  sudo mkdir build &&
+  cd build &&
+  sudo cmake -DCMAKE_BUILD_TYPE=Release .. &&
+  sudo make &&
+  sudo make install
+  sudo make install DESTDIR=../../kcov-build &&
+  cd ../.. &&
+  sudo rm -rf kcov-master &&
+  cd ./app  &&
+  for file in ./target/debug/tr_logic_llc-*[^\.d]; do [ -x "${file}" ] || continue; sudo mkdir -p "./target/cov/$(basename $file)"; kcov --exclude-pattern=/.cargo,/usr/lib --verify "./target/cov/$(basename $file)" "$file"; done && bash <(curl -s https://codecov.io/bash)  -t $CODECOV_TOKEN
 
 notifications:
   email:

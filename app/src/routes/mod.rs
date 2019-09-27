@@ -2,7 +2,6 @@ use actix_web::{web, HttpResponse, Responder, dev, guard, http, Result};
 use actix_web::middleware::errhandlers::{ ErrorHandlerResponse };
 
 pub mod index;
-
 mod tests;
 
 

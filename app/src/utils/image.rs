@@ -58,17 +58,10 @@ pub fn mat_resize(src_image: &Mat, width: i32, height: i32) -> Option<Mat> {
             return None;
         }
     };
-
-    /*
-    if width < 1 || height < 1 {
-        return None;
-    }
-    */
     let Size {
         width: original_width,
         height: original_height,
     } = image_size;
-
 
     if original_width < 1 || original_height < 1 {
         return None;
@@ -160,7 +153,6 @@ pub fn get_supported_extension_by_mime_name(mime_name: mime::Name) -> Option<&'s
 
 const SIGN_FF_D8_FF: &'static [u8] = &[ 0xFF, 0xD8, 0xFF ]; //JPG
 const SIGN_89_50_4E_47_0D_0A_1A_0A: &'static [u8] = &[ 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A ]; //PNG
-const SIGN_47_49_46_38: &'static [u8] = &[ 0x47, 0x49, 0x46, 0x38 ]; //GIF
 const SIGN_42_4D: &'static [u8] = &[ 0x42, 0x4D ]; //BMP
 
 /// Возвращвает content-type сооответсвующий сигнатуре изображения по первым 8-ми байтам файла
@@ -177,9 +169,6 @@ pub fn get_content_type_by_signature(src: &[u8]) -> Option<&'static str> {
     }
     if src.starts_with(SIGN_89_50_4E_47_0D_0A_1A_0A) {
         return Some("image/png");
-    }
-    if src.starts_with(SIGN_47_49_46_38) {
-        return Some("image/gif");
     }
     if src.starts_with(SIGN_42_4D) {
         return Some("image/bmp");
