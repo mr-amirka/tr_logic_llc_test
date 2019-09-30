@@ -73,7 +73,7 @@ docker-compose up
 ##### Доступные способы загрузки изображений:  
 
 1. Загрузка одного изображения непосредственно в бинарном формате (``` Content-Type: image/* ```);  
-2. Загрузка нескольких изображений в формате multipart/form-data (``` Content-Type: multipart/form-data ```);  
+2. Загрузка нескольких изображений в формате multipart/form-data (``` Content-Type: multipart/form-data ```), где каждое обрабатываемое поле с изображением должно иметь имя ``` image ``` и ``` Content-Type: image/* ```;  
 3. Загрузка одного изображения в JSON формате с BASE64 закодированным содержимом (``` Content-Type: application/json ```).  
 
 
