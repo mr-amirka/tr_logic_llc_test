@@ -1,6 +1,6 @@
 #!/bin/sh
 curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
-apt-get update -y && apt-get install -y cmake wget
+apt-get update -y && apt-get install -y cmake wget git
 
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
 apt-get install -y nodejs
