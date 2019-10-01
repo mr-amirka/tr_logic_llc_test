@@ -13,7 +13,6 @@ extern crate actix_rt;
 extern crate num_cpus;
 extern crate env_logger;
 extern crate actix_files;
-extern crate openssl;
 extern crate serde;
 extern crate crypto;
 extern crate serde_derive;
@@ -22,10 +21,10 @@ extern crate base64;
 extern crate actix_multipart;
 extern crate mime;
 extern crate futures_cpupool;
-extern crate tokio;
 extern crate bytes;
 extern crate graceful;
 extern crate config;
+extern crate positioned_io;
 
 use actix_web::{
     App,

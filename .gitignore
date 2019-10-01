@@ -6,4 +6,5 @@
 /app/data/thumbnails
 /app/ffi/opencv
 *tmp.*
+/tmp
 **/*.rs.bk

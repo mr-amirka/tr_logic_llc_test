@@ -1,14 +1,14 @@
 use std::sync::{Arc, Mutex};
-use std::io::Write;
 use std::cell::RefCell;
 use std::str::FromStr;
 use crypto;
 use crypto::digest::Digest;
 use futures::{self, Future, Stream, Async};
-use futures_cpupool::{CpuPool};
+use futures_cpupool::CpuPool;
 use base64;
 use bytes::Bytes;
 use serde_json::json;
+use positioned_io::WriteAt;
 use actix_web::{
     client,
     HttpMessage,
@@ -206,13 +206,22 @@ where
                                 ($filename:expr, $subdir:expr) => (
                                     {
                                         let filename = $filename;
-                                        match std::fs::File::create(&filename) {
+                                        match
+                                            std::fs::OpenOptions::new()
+                                                .write(true)
+                                                .create(true)
+                                                .open(&filename)
+                                        {
                                             Ok(file) => file,
                                             Err(err) => {
                                                 match err.kind() {
                                                     std::io::ErrorKind::NotFound => {
                                                         std::fs::create_dir_all($subdir)?;
-                                                        std::fs::File::create(&filename)?
+                                                        std::fs::OpenOptions::new()
+                                                            .write(true)
+                                                            .create(true)
+                                                            .open(&filename)?
+                                                        //std::fs::File::create(&filename)?
                                                     },
                                                     _ => {
                                                         return Err(err);
@@ -229,13 +238,13 @@ where
                                 let local_buf = buf;
                                 let images_root = get_images_dir();
                                 let mut file = create_file!(images_root.join(&src_path), images_root.join(&src_subdir));
-                                file.write_all(&local_buf[..])?;
+                                file.write_all_at(0, &local_buf[..])?;
                             }
                             {
                                 let thumbnails_root = get_thumbnails_dir();
                                 let mut file = create_file!(thumbnails_root.join(&src_path), thumbnails_root.join(&src_subdir));
                                 // полностью скопировал исходники rust_opencv, чтоб сделать метод 'to_slice' публичным
-                                file.write_all(chars_vec.to_slice())?;
+                                file.write_all_at(0, chars_vec.to_slice())?;
                             }
                             Ok::<(std::path::PathBuf, _), _>((src_path.into(), size))
                         })
@@ -342,7 +351,6 @@ pub fn image_upload(item: ImageInput) -> Box<dyn Future<Item = ImageOutputItem, 
         }
 
         return Box::new(
-            //upload_file(
             upload_image(
                 &async_fs::DEFAULT_CPU_POOL,
                 futures::stream::once::<_, std::io::Error>(
@@ -430,7 +438,6 @@ pub fn upload_url_image(url: &str) -> impl futures::Future<Item = (std::path::Pa
 
            if let Some(extension) = image::get_supported_extension_by_mime_name(mime_type.subtype()) {
                return Box::new(
-                   //upload_file(
                    upload_image(
                        &async_fs::DEFAULT_CPU_POOL,
                        response.map_err(|_err| {
