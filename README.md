@@ -147,7 +147,7 @@ https://pp.userapi.com/c852024/v852024453/16c16a/uYJ5mGfBBDE.jpg
         "type": "Invalid"
       }
     }
-    /// ...
+    // ...
   ]
 }
 ```
