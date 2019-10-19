@@ -1,4 +1,3 @@
-#![feature(async_await)]
 #![feature(test)]
 #![feature(rustc_private)]
 
